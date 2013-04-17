@@ -28,6 +28,7 @@
 		$find = $_GET['param'];
 		// petla sprawdzajca czy w danym rekordzie w tagu <description> znajduje się tekst przekazany w parametrze
 		// jeśli tekst zostaje znaleziony to poszczególne dane wpisu na blogu sa wypisywane na ekranie
+		$found = 0;
 		for($i=0; $i<$xml_item_count; $i++){
 			if(stristr($xml->channel->item[$i]->description,$find)!==false){
 				echo "<br>Tytuł: ".$xml->channel->item[$i]->title;
@@ -35,7 +36,11 @@
 				echo "<br>Opis: ".$xml->channel->item[$i]->description;
 				$content = $xml->channel->item[$i]->children($namespace['content']);
 				echo "<br>Treść: ".$content->encoded;
+				$found++;
 			}
+		}
+		if ($found == 0){
+			echo "<br>Niestety nie znaleziono wpisu zawierajacego w opisie podany parametr \"".$find."\"";
 		}
 	}
 ?>
